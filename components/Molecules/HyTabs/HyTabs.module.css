@@ -1,0 +1,9 @@
+.tabs {
+  border: 3px solid black;
+  padding: 12px;
+  border-radius: 12px;
+  display: flex;
+  gap: 12px;
+  max-width: 950px;
+  margin: auto;
+}

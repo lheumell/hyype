@@ -1,0 +1,15 @@
+.button {
+  width: 100%;
+  /* max-width: 600px; */
+  border: none;
+  max-height: 48px;
+  border-radius: 8px;
+  padding: 12px 24px 12px 24px;
+  background: linear-gradient(75.83deg, #6ee691 0%, #9bebeb 100%);
+}
+
+.secondary {
+  color: black;
+  border: none;
+  background: transparent;
+}

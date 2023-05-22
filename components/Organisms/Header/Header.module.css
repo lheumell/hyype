@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 80px;
+}
+
+.itemNavigation {
+  display: inline;
+}
+
+.itemHref {
+  text-decoration: none;
+  color: black;
+  padding: 15px 30px;
+  transition: background-color 0.3s ease;
+}
+
+.itemHref:hover {
+  text-decoration: underline;
+}

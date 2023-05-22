@@ -10,25 +10,71 @@ import {
   inMemoryPersistence,
 } from "firebase/auth";
 
-import { FirebaseAppProvider, AuthProvider } from "reactfire";
+import { FirebaseAppProvider, AuthProvider, useSigninCheck } from "reactfire";
 
 import configuration from "../configuration";
 import { isBrowser } from "../lib/generic/isBrowser";
+import { createContext, useEffect, useState } from "react";
+import { getFirestore } from "firebase/firestore";
+import { getDocByCollectionWhere } from "../lib/endpoints";
+
+const app = initializeApp(configuration.firebase);
+
+export const database = getFirestore(app);
+
+type TUser = {
+  id: string;
+  email: string;
+  eventsBook: string[];
+};
+
+const defaultAuthContext = {
+  currentUser: {
+    id: "",
+    email: "",
+    eventsBook: [],
+  },
+  saveSetting: (value: any) => {},
+};
+
+export const AuthContext = createContext({});
 
 function App(props: AppProps) {
   const { Component, pageProps } = props;
 
-  // we initialize the firebase app
-  // using the configuration that we defined above
-  const app = initializeApp(configuration.firebase);
+  // const authReactFire = useAuth();
 
-  // make sure we're not using IndexedDB when SSR
-  // as it is only supported on browser environments
+  // const { status } = useSigninCheck();
+
+  const [currentUser, setCurrentUser] = useState<TUser>();
   const persistence = isBrowser()
     ? indexedDBLocalPersistence
     : inMemoryPersistence;
 
   const auth = initializeAuth(app, { persistence });
+
+  useEffect(() => {
+    async function fetchData(user: any) {
+      setCurrentUser(
+        await getDocByCollectionWhere("users", "id", "==", user?.uid)
+      );
+    }
+
+    // if (status !== "success") {
+    //   return;
+    // }
+
+    const listener = auth.onAuthStateChanged((user) => {
+      if (user) fetchData(user);
+    });
+
+    // destroy listener on un-mounts
+    return () => listener();
+  }, [auth]);
+
+  const saveSettings = (values: any) => {
+    setCurrentUser(values);
+  };
 
   if (configuration.emulator && !("emulator" in auth.config)) {
     // we can get the host by
@@ -40,7 +86,11 @@ function App(props: AppProps) {
   return (
     <FirebaseAppProvider firebaseApp={app}>
       <AuthProvider sdk={auth}>
-        <Component {...pageProps} />
+        <AuthContext.Provider
+          value={{ currentUser, saveSettings, setCurrentUser }}
+        >
+          <Component {...pageProps} />
+        </AuthContext.Provider>
       </AuthProvider>
     </FirebaseAppProvider>
   );

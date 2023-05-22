@@ -1,0 +1,20 @@
+.default {
+  margin: 0;
+}
+
+.title {
+  font-size: 48px;
+  padding: 25px 0 50px 0;
+}
+
+.subheading {
+  font-size: 12px;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.secondary {
+  color: #6c698c;
+}
