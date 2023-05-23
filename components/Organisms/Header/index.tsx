@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import { HyIcon } from "../../../index";
@@ -7,9 +7,12 @@ import logo from "../../../assets/logo.png";
 
 import styles from "./Header.module.css";
 import Link from "next/link";
+import { AuthContext } from "../../../pages/_app";
 
 const Header = () => {
-  const [user, setUser] = useState(null);
+  const useAuthContext = useContext(AuthContext);
+
+  const { currentUser } = useAuthContext;
 
   const links = [
     {
@@ -38,9 +41,9 @@ const Header = () => {
           </li>
         ))}
       </ul>
-      {user ? (
+      {currentUser ? (
         <Link className={styles.itemHref} href="/profil">
-          profil
+          profil {currentUser.name}
         </Link>
       ) : (
         <Link className={styles.itemHref} href="/auth">

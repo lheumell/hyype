@@ -16,7 +16,7 @@ import configuration from "../configuration";
 import { isBrowser } from "../lib/generic/isBrowser";
 import { createContext, useEffect, useState } from "react";
 import { getFirestore } from "firebase/firestore";
-import { getDocByCollectionWhere } from "../lib/endpoints";
+import { getOneDocByCollectionWhere } from "../lib/endpoints";
 
 const app = initializeApp(configuration.firebase);
 
@@ -56,7 +56,7 @@ function App(props: AppProps) {
   useEffect(() => {
     async function fetchData(user: any) {
       setCurrentUser(
-        await getDocByCollectionWhere("users", "id", "==", user?.uid)
+        await getOneDocByCollectionWhere("users", "id", "==", user?.uid)
       );
     }
 

@@ -1,0 +1,29 @@
+.pagecreate {
+  display: flex;
+  width: 100vw;
+  height: 100%;
+}
+
+.leftcontent {
+  width: 40vw;
+  margin: 15px;
+  border-radius: 50px;
+  background: linear-gradient(75.83deg, #6ee691 0%, #9bebeb 100%);
+}
+
+.rightcontent {
+  width: 50vw;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.button {
+  margin: 8px;
+  grid-area: 5 / 1 / 5 / 3;
+}
