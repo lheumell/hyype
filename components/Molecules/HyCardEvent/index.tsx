@@ -2,6 +2,7 @@ import { HyButton, HyIcon, HyText, HyModal } from "../../..";
 
 import styles from "./HyCardEvent.module.css";
 import bg from "../../../assets/bg-first.png";
+import deleteIcon from "../../../assets/delete.png";
 import { useCallback, useContext, useState } from "react";
 import { AuthContext } from "../../../pages/_app";
 import router from "next/router";
@@ -16,9 +17,9 @@ type THyCardEvent = {
   location: string;
   organizer: string;
   handleClick: any;
-  admin: boolean;
+  isAdminCard?: boolean;
   bgColor: string;
-  isDisabled: boolean;
+  isDisabled?: boolean;
 };
 
 export const HyCardEvent = (props: THyCardEvent) => {
@@ -32,7 +33,7 @@ export const HyCardEvent = (props: THyCardEvent) => {
     location,
     handleClick,
     organizer,
-    admin,
+    isAdminCard,
     bgColor,
     isDisabled,
   } = props;
@@ -131,6 +132,34 @@ export const HyCardEvent = (props: THyCardEvent) => {
       className={`${styles.card} ${isDisabled && styles.carddisabled} `}
       key={id}
     >
+      {isAdminCard && (
+        <HyModal
+          buttonName={<HyIcon icon={deleteIcon} size={"20"}></HyIcon>}
+          isOpen={isOpen}
+          openModal={openModal}
+          closeModal={closeModal}
+          classes={styles.deletebutton}
+          bgColorButton="error"
+          withIcon
+        >
+          <div className="mt-2">
+            <p className="text-sm text-gray-500">
+              Your payment has been successfully submitted. We’ve sent you an
+              email with all of the details of your order.
+            </p>
+          </div>
+          <div className="mt-4">
+            <button
+              type="button"
+              className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              onClick={closeModal}
+            >
+              Got it, thanks!
+            </button>
+          </div>
+        </HyModal>
+      )}
+
       <div className={styles.imagecontent}>
         <HyText variant="subheading" classes={styles.date}>
           {date}
@@ -152,7 +181,7 @@ export const HyCardEvent = (props: THyCardEvent) => {
         <EventCapacity />
       </div>
       <div className={styles.button}>
-        {admin ? (
+        {isAdminCard ? (
           <HyModal
             buttonName="modifier"
             isOpen={isOpen}

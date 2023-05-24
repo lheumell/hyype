@@ -56,7 +56,7 @@ const Profil = () => {
         <HyText variant="title" weight="bold">
           Mes evenements :
         </HyText>
-        {myEvents && <HyEventsList events={myEvents} admin />}
+        {myEvents && <HyEventsList events={myEvents} isAdminCard />}
         <div className={style.signout}>
           <HyButton onClick={signOut}>Deconnexion</HyButton>
         </div>

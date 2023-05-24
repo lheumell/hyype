@@ -3,20 +3,38 @@ import { Fragment, useState } from "react";
 import { HyButton } from "../../..";
 
 type THyModal = {
-  buttonName: string;
+  buttonName: any;
   children: any;
   isOpen: boolean;
   openModal: (event: any) => void;
   closeModal: () => void;
+  classes: any;
+  bgColorButton?: string;
+  withIcon?: boolean;
 };
 
 export const HyModal = (props: THyModal) => {
-  const { buttonName, children, isOpen, openModal, closeModal } = props;
+  const {
+    buttonName,
+    children,
+    isOpen,
+    openModal,
+    closeModal,
+    classes,
+    bgColorButton,
+    withIcon,
+  } = props;
 
   return (
     <>
-      <div className="flex items-center justify-center">
-        <HyButton onClick={openModal}>{buttonName}</HyButton>
+      <div className={`flex items-center justify-center ${classes}`}>
+        <HyButton
+          onClick={openModal}
+          variant={bgColorButton}
+          withIcon={withIcon}
+        >
+          {buttonName}
+        </HyButton>
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>

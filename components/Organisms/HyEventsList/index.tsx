@@ -7,7 +7,7 @@ import { updateDocByCollection } from "../../../lib/endpoints";
 
 interface IHyEventsList {
   events: Tevent[];
-  admin?: boolean;
+  isAdminCard?: boolean;
 }
 
 type Tevent = {
@@ -25,7 +25,7 @@ type Tevent = {
 };
 
 export const HyEventsList = (props: IHyEventsList) => {
-  const { events, admin } = props;
+  const { events, isAdminCard } = props;
 
   const useAuthContext = useContext(AuthContext);
 
@@ -60,7 +60,7 @@ export const HyEventsList = (props: IHyEventsList) => {
           location={event.location}
           organizer={event.organizer}
           handleClick={handleClick}
-          admin={admin}
+          isAdminCard={isAdminCard}
           bgColor={event.bgColor}
         />
       ))}
