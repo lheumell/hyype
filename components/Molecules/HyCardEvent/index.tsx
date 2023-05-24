@@ -1,7 +1,7 @@
 import { HyButton, HyIcon, HyText, HyModal } from "../../..";
 
 import styles from "./HyCardEvent.module.css";
-import concert from "../../../assets/concert.png";
+import bg from "../../../assets/bg-first.png";
 import { useCallback, useContext, useState } from "react";
 import { AuthContext } from "../../../pages/_app";
 import router from "next/router";
@@ -17,6 +17,8 @@ type THyCardEvent = {
   organizer: string;
   handleClick: any;
   admin: boolean;
+  bgColor: string;
+  isDisabled: boolean;
 };
 
 export const HyCardEvent = (props: THyCardEvent) => {
@@ -31,6 +33,8 @@ export const HyCardEvent = (props: THyCardEvent) => {
     handleClick,
     organizer,
     admin,
+    bgColor,
+    isDisabled,
   } = props;
 
   let [isOpen, setIsOpen] = useState(false);
@@ -59,8 +63,9 @@ export const HyCardEvent = (props: THyCardEvent) => {
   }, [currentUser, organizer]);
 
   const isEventFull = useCallback(() => {
-    return guest.length === capacity;
-  }, [capacity, guest.length]);
+    if (capacity === 0) return;
+    return guest && guest.length === capacity;
+  }, [capacity, guest]);
 
   const EventPrice = () => {
     return price == 0 ? (
@@ -71,21 +76,41 @@ export const HyCardEvent = (props: THyCardEvent) => {
   };
 
   const EventCapacity = () => {
-    return capacity == 0 ? (
+    return capacity === 0 ? (
       <HyText>illimité</HyText>
     ) : (
       <HyText>
-        {guest.length}/{capacity} invités
+        {guest && guest.length}/{capacity} invités
       </HyText>
     );
   };
 
   const BookContent = () => {
     if (isCurrentUserOrganizer())
-      return <HyText>Vous etes l'organisateur</HyText>;
-    else if (isEventInEventsBook()) return <HyText>deja inscrit</HyText>;
-    else if (isEventFull()) return <HyText>complet :/</HyText>;
-    else return <HyButton onClick={onClick}>Book now</HyButton>;
+      return (
+        <HyButton onClick={() => {}} variant="secondary" isDisabled>
+          Vous etes l'organisateur
+        </HyButton>
+      );
+    else if (isEventInEventsBook())
+      return (
+        <HyButton onClick={() => {}} variant="secondary" isDisabled>
+          Inscrit
+        </HyButton>
+      );
+    else if (isEventFull())
+      return (
+        <HyButton onClick={() => {}} variant="secondary" isDisabled>
+          Complet :/
+        </HyButton>
+      );
+    else return <HyButton onClick={onClick}>Se joindre</HyButton>;
+  };
+
+  const isButtonActive = () => {
+    return (
+      !isCurrentUserOrganizer() && !isEventInEventsBook() && !isEventFull()
+    );
   };
 
   const onClick = () => {
@@ -96,13 +121,23 @@ export const HyCardEvent = (props: THyCardEvent) => {
     router.push("/events/" + id);
   };
 
+  const style: React.CSSProperties = {
+    backgroundColor: `#${bgColor}`,
+  };
+
   return (
-    <div onClick={goToEvent} className={styles.card} key={id}>
+    <div
+      onClick={goToEvent}
+      className={`${styles.card} ${isDisabled && styles.carddisabled} `}
+      key={id}
+    >
       <div className={styles.imagecontent}>
         <HyText variant="subheading" classes={styles.date}>
           {date}
         </HyText>
-        <HyIcon classes={styles.image} icon={concert} size="350" />
+        <div style={style} className={styles.bgimage}>
+          <HyIcon classes={styles.image} icon={bg} size="350" />
+        </div>
       </div>
       <div className={styles.title}>
         <HyText weight="bold">{title}</HyText>

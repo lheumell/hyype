@@ -25,7 +25,6 @@ const Events = () => {
     selectedCategory === "all"
       ? events
       : events.filter((event: any) => event.category === selectedCategory);
-
   return (
     <>
       {categories && filteredEvents && (

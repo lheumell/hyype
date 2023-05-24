@@ -6,12 +6,17 @@ type THyButton = {
   children: ReactNode;
   onClick: any;
   variant?: "secondary";
+  isDisabled?: boolean;
 };
 
 export const HyButton = (props: THyButton) => {
-  const { children, variant, onClick } = props;
+  const { children, variant, onClick, isDisabled } = props;
   return (
-    <button onClick={onClick} className={`${styles.button} ${styles[variant]}`}>
+    <button
+      disabled={isDisabled}
+      onClick={onClick}
+      className={`${styles.button} ${styles[variant]}`}
+    >
       {children}
     </button>
   );

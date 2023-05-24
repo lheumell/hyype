@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Listbox } from "@headlessui/react";
+import styles from "./HySelectDropdown.module.css";
 
 const people = [
   { id: 1, name: "Durward Reynolds", unavailable: false },
@@ -13,7 +13,7 @@ export const HySelectDropdown = (props: any) => {
   const { items, selectedItem, setSelectedItem } = props;
 
   return (
-    <>
+    <div className={styles.selectdropdown}>
       {selectedItem && (
         <Listbox value={selectedItem} onChange={setSelectedItem}>
           <Listbox.Button>{selectedItem.name}</Listbox.Button>
@@ -30,6 +30,6 @@ export const HySelectDropdown = (props: any) => {
           </Listbox.Options>
         </Listbox>
       )}
-    </>
+    </div>
   );
 };

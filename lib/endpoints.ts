@@ -71,5 +71,5 @@ export const findDocById = async (collectionReference: string, id: any) => {
   const docReference = collection(database, collectionReference);
   const docRef = doc(docReference, id);
   const docSnap = await getDoc(docRef);
-  return docSnap.data();
+  return { ...docSnap.data(), id: docSnap.id };
 };

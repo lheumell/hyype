@@ -6,7 +6,7 @@ type THyLabelInput = {
   label: string;
   value: string | number;
   setValue: (e: string) => void;
-  type: "password" | "text" | "number" | "email";
+  type: "password" | "text" | "number" | "email" | "date";
 };
 
 export const HyLabelInput = (props: THyLabelInput) => {

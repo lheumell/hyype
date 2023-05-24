@@ -7,7 +7,7 @@ import { updateDocByCollection } from "../../../lib/endpoints";
 
 interface IHyEventsList {
   events: Tevent[];
-  admin: boolean;
+  admin?: boolean;
 }
 
 type Tevent = {
@@ -21,6 +21,7 @@ type Tevent = {
   location: string;
   organizer: string;
   capacity: number;
+  bgColor: string;
 };
 
 export const HyEventsList = (props: IHyEventsList) => {
@@ -60,6 +61,7 @@ export const HyEventsList = (props: IHyEventsList) => {
           organizer={event.organizer}
           handleClick={handleClick}
           admin={admin}
+          bgColor={event.bgColor}
         />
       ))}
     </ul>

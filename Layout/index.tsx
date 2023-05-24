@@ -29,6 +29,8 @@ const Layout = (props: any) => {
         }
         .content {
           height: calc(100vh - 80px);
+          max-width: 1200px;
+          margin: auto;
         }
       `}</style>
     </>

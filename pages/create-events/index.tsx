@@ -1,7 +1,13 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../Layout";
-import { HyText, HyButton, HyLabelInput, HySelectDropdown } from "../../index";
+import {
+  HyText,
+  HyButton,
+  HyLabelInput,
+  HySelectDropdown,
+  HyCardEvent,
+} from "../../index";
 import styles from "./createevent.module.css";
 import { createDocByCollection, getDocByCollection } from "../../lib/endpoints";
 import { HyToggle } from "../../components/Molecules/HyToggle";
@@ -19,9 +25,13 @@ const CreateEvents = () => {
   const [decscription, setDecscription] = useState("");
   const [location, setLocation] = useState("");
   const [date, setDate] = useState("");
-  const [capacity, setCapacity] = useState("");
-  const [price, setPrice] = useState("");
-  const router = useRouter();
+  const [capacity, setCapacity] = useState(0);
+  const [price, setPrice] = useState(0);
+
+  const colorPickerBg = ["FFA9DC", "FFE993", "9DD9F4", "E8CABB", "FCAA51"];
+
+  const randomColor =
+    colorPickerBg[Math.floor(Math.random() * (4 - 0 + 1)) + 0];
 
   const useAuthContext = useContext(AuthContext);
 
@@ -65,13 +75,29 @@ const CreateEvents = () => {
       organizer: currentUser.id,
       category: selectedCategory,
       guest: [],
+      bgColor: randomColor,
     });
   };
 
   return (
     <Layout title="crée ton evenement">
       <div className={styles.pagecreate}>
-        <div className={styles.leftcontent}></div>
+        <div className={styles.leftcontent}>
+          <HyCardEvent
+            id={"0"}
+            title={title}
+            date={date}
+            price={price}
+            guest={[]}
+            capacity={capacity}
+            location={location}
+            organizer={""}
+            handleClick={undefined}
+            admin={false}
+            bgColor={colorPickerBg[0]}
+            isDisabled={true}
+          />
+        </div>
         <div className={styles.rightcontent}>
           <HyText variant="title">Crée ton evenement !</HyText>
           <form className={styles.form} onSubmit={handleFormSubmit}>
@@ -97,7 +123,7 @@ const CreateEvents = () => {
               value={date}
               setValue={setDate}
               label="Date"
-              type="text"
+              type="date"
             />
             <div>
               <HyToggle

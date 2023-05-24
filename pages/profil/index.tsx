@@ -1,13 +1,15 @@
-import { HyButton, HyEventsList } from "../..";
+import { HyButton, HyEventsList, HyText } from "../..";
 import { signOut } from "firebase/auth";
 import Layout from "../../Layout";
 import GuardedPage from "../../components/GuardedPage";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../_app";
-import { getDocByCollectionWhere } from "../../lib/endpoints";
+import { findDocById, getDocByCollectionWhere } from "../../lib/endpoints";
+import style from "./profil.module.css";
 
 const Profil = () => {
   const [myEvents, setMyEvents] = useState<any[]>();
+  const [eventsBooked, setEventsBooked] = useState<any>();
 
   const useAuthContext = useContext(AuthContext);
 
@@ -24,21 +26,40 @@ const Profil = () => {
             currentUser.id
           )
         );
+      if (currentUser && Array.isArray(currentUser.eventsBook)) {
+        const eventsPromises =
+          currentUser &&
+          currentUser.eventsBook &&
+          currentUser.eventsBook.map(async (eventId: any) => {
+            const event = await findDocById("events", eventId);
+            return event;
+          });
+        const events = await Promise.all(eventsPromises);
+        setEventsBooked(events);
+      }
     }
     fetchData();
   }, [currentUser]);
 
-  useEffect(() => {
-    console.log(myEvents);
-  }, [myEvents]);
-
   return (
     <Layout title="profil">
       <GuardedPage whenSignedOut="/auth/sign-up">
-        {currentUser?.email}
-        {currentUser?.name}
+        <HyText variant="title" weight="bold">
+          Mes informations :
+        </HyText>
+        <HyText> Email : {currentUser?.email}</HyText>
+        <HyText> Nom : {currentUser?.name}</HyText>
+        <HyText variant="title" weight="bold">
+          A venir :
+        </HyText>
+        {eventsBooked && <HyEventsList events={eventsBooked} />}
+        <HyText variant="title" weight="bold">
+          Mes evenements :
+        </HyText>
         {myEvents && <HyEventsList events={myEvents} admin />}
-        <HyButton onClick={signOut}>Deconnexion</HyButton>
+        <div className={style.signout}>
+          <HyButton onClick={signOut}>Deconnexion</HyButton>
+        </div>
       </GuardedPage>
     </Layout>
   );

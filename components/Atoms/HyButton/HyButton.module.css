@@ -1,15 +1,16 @@
 .button {
   width: 100%;
-  /* max-width: 600px; */
-  border: none;
-  max-height: 48px;
-  border-radius: 8px;
-  padding: 12px 24px 12px 24px;
-  background: linear-gradient(75.83deg, #6ee691 0%, #9bebeb 100%);
+  padding: 10px;
+  border-radius: 10px;
+  border: 3px solid black;
+  min-width: 107px;
+  /* min-width: 150px; */
+  white-space: nowrap;
+  text-align: center;
+  background-color: aquamarine;
 }
 
 .secondary {
   color: black;
-  border: none;
-  background: transparent;
+  background: white;
 }

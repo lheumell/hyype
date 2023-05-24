@@ -1,14 +1,8 @@
-.input {
+.selectdropdown {
   height: 48px;
   border-radius: 8px;
   border: 3px solid;
   box-shadow: 3px 2px 0px 0px #000000;
   padding: 12px;
-  margin: 8px 0;
-}
-
-.labelinput {
-  display: flex;
-  flex-direction: column;
-  margin: 8px;
+  margin: 16px 8px;
 }
