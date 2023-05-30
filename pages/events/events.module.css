@@ -1,0 +1,8 @@
+.eventpage {
+  margin-top: 10px;
+  padding: 50px;
+  border-radius: 10px;
+  height: 840px;
+  border: 3px solid black;
+  box-shadow: 3px 2px 0 0 black;
+}

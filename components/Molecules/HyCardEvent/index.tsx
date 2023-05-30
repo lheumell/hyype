@@ -107,13 +107,6 @@ export const HyCardEvent = (props: THyCardEvent) => {
       );
     else return <HyButton onClick={onClick}>Se joindre</HyButton>;
   };
-
-  const isButtonActive = () => {
-    return (
-      !isCurrentUserOrganizer() && !isEventInEventsBook() && !isEventFull()
-    );
-  };
-
   const onClick = () => {
     handleClick(id, guest);
   };

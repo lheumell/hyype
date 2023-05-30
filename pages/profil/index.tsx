@@ -1,4 +1,4 @@
-import { HyButton, HyEventsList, HyText } from "../..";
+import { HyButton, HyEventsList, HyText, Loader } from "../..";
 import { signOut } from "firebase/auth";
 import Layout from "../../Layout";
 import GuardedPage from "../../components/GuardedPage";
@@ -10,6 +10,7 @@ import style from "./profil.module.css";
 const Profil = () => {
   const [myEvents, setMyEvents] = useState<any[]>();
   const [eventsBooked, setEventsBooked] = useState<any>();
+  const [isLoading, setIsLoading] = useState(true);
 
   const useAuthContext = useContext(AuthContext);
 
@@ -36,10 +37,15 @@ const Profil = () => {
           });
         const events = await Promise.all(eventsPromises);
         setEventsBooked(events);
+        setIsLoading(false);
       }
     }
     fetchData();
   }, [currentUser]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <Layout title="profil">

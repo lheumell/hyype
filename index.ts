@@ -1,3 +1,5 @@
+export * from "./components/Commons/Loader";
+
 export * from "./components/Atoms/HyButton";
 export * from "./components/Atoms/HyIcon";
 export * from "./components/Atoms/HyText";

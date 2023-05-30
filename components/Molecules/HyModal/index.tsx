@@ -8,7 +8,7 @@ type THyModal = {
   isOpen: boolean;
   openModal: (event: any) => void;
   closeModal: () => void;
-  classes: any;
+  classes?: any;
   bgColorButton?: string;
   withIcon?: boolean;
 };

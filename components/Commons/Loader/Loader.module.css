@@ -1,0 +1,28 @@
+.loaderpage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #7fffd4;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  animation: sh1 2s infinite cubic-bezier(0.3, 1, 0, 1);
+}
+@keyframes sh1 {
+  33% {
+    border-radius: 0;
+    background: #7f90ff;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  66% {
+    border-radius: 0;
+    background: #ffa17f;
+    clip-path: polygon(50% 0, 50% 0, 100% 100%, 0 100%);
+  }
+}
