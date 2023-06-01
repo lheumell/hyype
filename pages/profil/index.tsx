@@ -2,10 +2,11 @@ import { HyButton, HyEventsList, HyText, Loader } from "../..";
 import { signOut } from "firebase/auth";
 import Layout from "../../Layout";
 import GuardedPage from "../../components/GuardedPage";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../_app";
 import { findDocById, getDocByCollectionWhere } from "../../lib/endpoints";
 import style from "./profil.module.css";
+import { useAuth } from "reactfire";
 
 const Profil = () => {
   const [myEvents, setMyEvents] = useState<any[]>();
@@ -43,6 +44,12 @@ const Profil = () => {
     fetchData();
   }, [currentUser]);
 
+  const auth = useAuth();
+
+  const onSignOutRequested = useCallback(() => {
+    return signOut(auth);
+  }, [auth]);
+
   if (isLoading) {
     return <Loader />;
   }
@@ -64,7 +71,7 @@ const Profil = () => {
         </HyText>
         {myEvents && <HyEventsList events={myEvents} isAdminCard />}
         <div className={style.signout}>
-          <HyButton onClick={signOut}>Deconnexion</HyButton>
+          <HyButton onClick={onSignOutRequested}>Deconnexion</HyButton>
         </div>
       </GuardedPage>
     </Layout>

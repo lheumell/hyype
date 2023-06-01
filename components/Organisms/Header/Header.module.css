@@ -49,3 +49,8 @@
   border-radius: 10px;
   box-shadow: 3px 2px 0px 0px #000000;
 }
+
+.account {
+  display: flex;
+  align-items: center;
+}

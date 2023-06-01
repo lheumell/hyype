@@ -16,6 +16,7 @@ export const HyIcon = (props: THyIcon) => {
       alt="GFG logo imported from public directory"
       width={size}
       className={classes}
+      height={size}
     />
   );
 };

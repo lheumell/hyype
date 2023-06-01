@@ -1,0 +1,15 @@
+.verifypage {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+}
+
+.identity {
+  height: 50vh;
+  width: 50vh;
+  border-radius: 10px;
+  padding: 5px;
+  border: 3px solid black;
+  box-shadow: 3px 2px 0 0 black;
+}

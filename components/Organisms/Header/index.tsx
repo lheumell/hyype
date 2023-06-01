@@ -48,11 +48,16 @@ const Header = () => {
       </div>
 
       {currentUser ? (
-        <Link className={styles.itemHref} href="/profil">
-          <div className={styles.icon}>
-            <HyIcon icon={avatar} size={"20"} />
-          </div>
-        </Link>
+        <div className={styles.account}>
+          <Link className={styles.itemHref} href="/verify">
+            Verifie ton identité !
+          </Link>
+          <Link className={styles.itemHref} href="/profil">
+            <div className={styles.icon}>
+              <HyIcon icon={avatar} size={"20"} />
+            </div>
+          </Link>
+        </div>
       ) : (
         <Link className={styles.itemHref} href="/auth">
           Connexion

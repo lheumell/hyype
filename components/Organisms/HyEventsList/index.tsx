@@ -31,7 +31,7 @@ export const HyEventsList = (props: IHyEventsList) => {
 
   const { currentUser, setCurrentUser } = useAuthContext;
 
-  const handleClick = (id: any, guest: any) => {
+  const handleClick = async (id: any, guest: any) => {
     const updateData = {
       eventsBook: [...currentUser.eventsBook, id],
     };

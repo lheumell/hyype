@@ -13,7 +13,9 @@ export const HyText = (props: THyText) => {
   const { children, variant, weight, color, classes } = props;
   return (
     <p
-      className={`${styles[variant]} ${styles[weight]} ${styles[color]} ${classes} ${styles.default}`}
+      className={`${variant && styles[variant]} ${weight && styles[weight]} ${
+        color && styles[color]
+      } ${classes} ${styles.default}`}
     >
       {children}
     </p>
