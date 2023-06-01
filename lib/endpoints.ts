@@ -5,6 +5,7 @@ import {
   getDoc,
   getDocs,
   query,
+  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -65,6 +66,15 @@ export const createDocByCollection = async (
 ) => {
   const docReference = collection(database, collectionReference);
   addDoc(docReference, data);
+};
+
+export const createDocByCollectionWithUID = async (
+  collectionReference: string,
+  data: any,
+  uid: string
+) => {
+  const docReference = doc(database, collectionReference, uid);
+  setDoc(docReference, data, { merge: true });
 };
 
 export const findDocById = async (collectionReference: string, id: any) => {

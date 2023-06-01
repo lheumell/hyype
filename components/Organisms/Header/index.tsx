@@ -59,7 +59,7 @@ const Header = () => {
           </Link>
         </div>
       ) : (
-        <Link className={styles.itemHref} href="/auth">
+        <Link className={styles.itemHref} href="/auth/sign-in">
           Connexion
         </Link>
       )}

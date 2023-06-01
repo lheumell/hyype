@@ -4,6 +4,8 @@ import { GoogleAuthProvider } from "firebase/auth";
 
 import { useSignInWithProvider } from "../../lib/hooks/useSignInWithProvider";
 import EmailPasswordSignInForm from "../../components/EmailPasswordSignIn";
+import { HyText } from "../../components/Atoms/HyText";
+import Link from "next/link";
 
 const SignIn = () => {
   const [signInWithProvider, signInWithProviderState] = useSignInWithProvider();
@@ -22,8 +24,8 @@ const SignIn = () => {
     );
   };
 
-  const onSignIn = useCallback( () => {
-    return router.push("/dashboard");
+  const onSignIn = useCallback(() => {
+    return router.push("/events");
   }, [router]);
 
   useEffect(() => {
@@ -35,13 +37,16 @@ const SignIn = () => {
   return (
     <div className="flex flex-col space-y-8 items-center justify-center mx-auto h-screen w-11/12 lg:w-4/12">
       <div>
-        <h1 className="Hero">Sign In</h1>
+        <HyText variant="title" weight="bold">
+          Se connecter
+        </HyText>
       </div>
 
       <div className="flex flex-col space-y-8">
         <AuthProviderButton />
 
         <EmailPasswordSignInForm onSignIn={onSignIn} />
+        <Link href="/auth/sign-up">S'inscrire</Link>
       </div>
     </div>
   );

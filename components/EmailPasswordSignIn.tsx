@@ -1,5 +1,6 @@
-import { FormEvent, useCallback, useEffect } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import { useSignInWithEmailAndPassword } from "../lib/hooks/useSignInWithEmailAndPassword";
+import { HyButton, HyLabelInput } from "..";
 
 function EmailPasswordSignInForm(
   props: React.PropsWithChildren<{
@@ -7,6 +8,8 @@ function EmailPasswordSignInForm(
   }>
 ) {
   const [signIn, state] = useSignInWithEmailAndPassword();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const loading = state.loading;
   const error = state.error;
 
@@ -24,44 +27,33 @@ function EmailPasswordSignInForm(
         return;
       }
 
-      const data = new FormData(event.currentTarget);
-      const email = data.get(`email`) as string;
-      const password = data.get(`password`) as string;
-
       // sign user in
       return signIn(email, password);
     },
-    [loading, signIn]
+    [email, loading, password, signIn]
   );
 
   return (
-    <form className={"w-full"} onSubmit={onSubmit}>
-      <div className={"flex-col space-y-6"}>
-        <input
-          required
-          placeholder="Your Email"
-          name="email"
-          type="email"
-          className="TextField"
-        />
+    <div className={"flex-col space-y-6"}>
+      <HyLabelInput
+        label={"email"}
+        value={email}
+        setValue={setEmail}
+        type={"text"}
+      />
+      <HyLabelInput
+        label={"mot de passe"}
+        value={password}
+        setValue={setPassword}
+        type={"password"}
+      />
 
-        <input
-          required
-          placeholder="Your Password"
-          name="password"
-          type="password"
-          className="TextField"
-        />
+      {error ? <span className="text-red-500">{error.message}</span> : null}
 
-        {
-          error ? <span className="text-red-500">{error.message}</span> : null
-        }
-
-        <button disabled={loading} className="Button w-full">
-          Sign In
-        </button>
-      </div>
-    </form>
+      <HyButton isDisabled={loading} onClick={onSubmit}>
+        Se connecter
+      </HyButton>
+    </div>
   );
 }
 
