@@ -3,17 +3,17 @@ import { HyButton, HyIcon, HyText } from "../..";
 import styles from "./verify.module.css";
 
 function Verify() {
-  const [selectedPassport, setSelectedPassport] = useState(null);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const videoRef = useRef(null);
-  const mediaStreamRef = useRef(null);
+  const [selectedPassport, setSelectedPassport] = useState<string | null>();
+  const [selectedPhoto, setSelectedPhoto] = useState("");
+  const videoRef = useRef<any>();
+  const mediaStreamRef = useRef<MediaStream | null>(null);
 
   const handleStartCamera = async () => {
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: true,
       });
-      videoRef.current.srcObject = mediaStream;
+      if (videoRef.current) videoRef.current.srcObject = mediaStream;
       mediaStreamRef.current = mediaStream;
     } catch (error) {
       console.log("Error accessing webcam:", error);
@@ -27,12 +27,14 @@ function Verify() {
     }
   };
 
-  const handleImageChange = (event) => {
+  const handleImageChange = (event: any) => {
     const file = event.target.files[0];
     const reader = new FileReader();
 
     reader.onload = () => {
-      setSelectedPassport(reader.result);
+      if (typeof reader.result === "string" || reader.result === null) {
+        setSelectedPassport(reader.result);
+      }
     };
 
     if (file) {
@@ -41,6 +43,7 @@ function Verify() {
   };
 
   const handleCapture = () => {
+    if (!videoRef.current) return;
     const video = videoRef.current;
     const canvas = document.createElement("canvas");
 
@@ -48,7 +51,8 @@ function Verify() {
     canvas.height = video.videoHeight;
 
     const context = canvas.getContext("2d");
-    context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+    context &&
+      context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 
     const capturedImage = canvas.toDataURL("image/png");
     setSelectedPhoto(capturedImage);

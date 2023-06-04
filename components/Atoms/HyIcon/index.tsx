@@ -2,7 +2,7 @@ import { StaticImageData } from "next/image";
 import Image from "next/image";
 
 type THyIcon = {
-  icon: StaticImageData;
+  icon: StaticImageData | string;
   size: "20" | "56" | "80" | "350";
   classes?: string;
 };
