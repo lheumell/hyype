@@ -1,6 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { HyButton } from "../../..";
+import { TVariantButton } from "../../Atoms/HyButton/types";
 
 type THyModal = {
   buttonName: any;
@@ -9,7 +10,7 @@ type THyModal = {
   openModal: (event: any) => void;
   closeModal: () => void;
   classes?: any;
-  bgColorButton?: string;
+  variantButton?: TVariantButton;
   withIcon?: boolean;
 };
 
@@ -21,7 +22,7 @@ export const HyModal = (props: THyModal) => {
     openModal,
     closeModal,
     classes,
-    bgColorButton,
+    variantButton,
     withIcon,
   } = props;
 
@@ -30,7 +31,7 @@ export const HyModal = (props: THyModal) => {
       <div className={`flex items-center justify-center ${classes}`}>
         <HyButton
           onClick={openModal}
-          variant={bgColorButton}
+          variant={variantButton}
           withIcon={withIcon}
         >
           {buttonName}

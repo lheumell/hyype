@@ -132,7 +132,7 @@ export const HyCardEvent = (props: THyCardEvent) => {
           openModal={openModal}
           closeModal={closeModal}
           classes={styles.deletebutton}
-          bgColorButton="error"
+          variantButton="error"
           withIcon
         >
           <div className="mt-2">

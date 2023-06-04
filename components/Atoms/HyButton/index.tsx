@@ -1,14 +1,6 @@
-import { ReactNode } from "react";
+import { THyButton } from "./types";
 
 import styles from "./HyButton.module.css";
-
-type THyButton = {
-  children: ReactNode;
-  onClick: any;
-  variant?: "secondary" | "error";
-  isDisabled?: boolean;
-  withIcon?: boolean;
-};
 
 export const HyButton = (props: THyButton) => {
   const { children, variant, onClick, isDisabled, withIcon } = props;
