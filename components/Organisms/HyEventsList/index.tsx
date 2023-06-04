@@ -11,7 +11,6 @@ interface IHyEventsList {
 }
 
 type Tevent = {
-  //TEventCard en fait clean code
   id: string;
   title: string;
   date: string;

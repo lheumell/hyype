@@ -6,11 +6,10 @@ import { initializeApp } from "firebase/app";
 import {
   initializeAuth,
   indexedDBLocalPersistence,
-  connectAuthEmulator,
   inMemoryPersistence,
 } from "firebase/auth";
 
-import { FirebaseAppProvider, AuthProvider, useSigninCheck } from "reactfire";
+import { FirebaseAppProvider, AuthProvider } from "reactfire";
 
 import configuration from "../configuration";
 import { isBrowser } from "../lib/generic/isBrowser";

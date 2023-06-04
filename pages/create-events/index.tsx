@@ -93,7 +93,7 @@ const CreateEvents = () => {
             location={location}
             organizer={""}
             handleClick={undefined}
-            admin={false}
+            isAdminCard={false}
             bgColor={colorPickerBg[0]}
             isDisabled={true}
           />

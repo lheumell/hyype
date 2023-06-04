@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { HyText } from "../../..";
 
 import styles from "./HyLabelInput.module.css";
@@ -5,7 +6,7 @@ import styles from "./HyLabelInput.module.css";
 type THyLabelInput = {
   label: string;
   value: string | number;
-  setValue: (e: string) => void;
+  setValue: Dispatch<SetStateAction<any>>;
   type: "password" | "text" | "number" | "email" | "date";
 };
 

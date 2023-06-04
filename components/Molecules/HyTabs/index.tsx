@@ -19,7 +19,7 @@ export const HyTabs = (props: ITabs) => {
     <div className={styles.tabs}>
       {categories.map((category) => (
         <HyButton
-          variant={selectedCategory === category.name ? null : "secondary"}
+          variant={selectedCategory === category.name ? undefined : "secondary"}
           key={category.name}
           onClick={() => onCategoryChange(category.name)}
         >
