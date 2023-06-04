@@ -6,7 +6,7 @@ const Footer = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        Powered by <img src="/vercel.svg" alt="Vercel" />
+        Powered by
       </a>
 
       <style jsx>{`
@@ -18,9 +18,7 @@ const Footer = () => {
           justify-content: center;
           align-items: center;
         }
-        footer img {
-          margin-left: 0.5rem;
-        }
+
         footer a {
           display: flex;
           justify-content: center;
