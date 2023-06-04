@@ -14,7 +14,7 @@ import { FirebaseAppProvider, AuthProvider, useSigninCheck } from "reactfire";
 
 import configuration from "../configuration";
 import { isBrowser } from "../lib/generic/isBrowser";
-import { createContext, useEffect, useState } from "react";
+import { SetStateAction, createContext, useEffect, useState } from "react";
 import { getFirestore } from "firebase/firestore";
 import { getOneDocByCollectionWhere } from "../lib/endpoints";
 
@@ -23,30 +23,35 @@ const app = initializeApp(configuration.firebase);
 export const database = getFirestore(app);
 
 type TUser = {
+  name: string;
   id: string;
   email: string;
   eventsBook: string[];
 };
 
-const defaultAuthContext = {
-  currentUser: {
-    id: "",
-    email: "",
-    eventsBook: [],
-  },
-  saveSetting: (value: any) => {},
+const defaultUser = {
+  name: "",
+  id: "",
+  email: "",
+  eventsBook: [""],
 };
 
-export const AuthContext = createContext({});
+const defaultAuthContext = {
+  currentUser: defaultUser,
+  saveSettings: (value: any) => {
+    value;
+  },
+  setCurrentUser: (value: SetStateAction<TUser>) => {
+    value;
+  },
+};
+
+export const AuthContext = createContext(defaultAuthContext);
 
 function App(props: AppProps) {
   const { Component, pageProps } = props;
 
-  // const authReactFire = useAuth();
-
-  // const { status } = useSigninCheck();
-
-  const [currentUser, setCurrentUser] = useState<TUser>();
+  const [currentUser, setCurrentUser] = useState<TUser>(defaultUser);
   const persistence = isBrowser()
     ? indexedDBLocalPersistence
     : inMemoryPersistence;
@@ -60,28 +65,15 @@ function App(props: AppProps) {
       );
     }
 
-    // if (status !== "success") {
-    //   return;
-    // }
-
     const listener = auth.onAuthStateChanged((user) => {
       if (user) fetchData(user);
     });
-
-    // destroy listener on un-mounts
     return () => listener();
   }, [auth]);
 
   const saveSettings = (values: any) => {
     setCurrentUser(values);
   };
-
-  if (configuration.emulator && !("emulator" in auth.config)) {
-    // we can get the host by
-    // combining the local emulator host with the Auth port
-    const host = getAuthEmulatorHost();
-    connectAuthEmulator(auth, host);
-  }
 
   return (
     <FirebaseAppProvider firebaseApp={app}>
@@ -97,10 +89,3 @@ function App(props: AppProps) {
 }
 
 export default App;
-
-function getAuthEmulatorHost() {
-  const host = process.env.NEXT_PUBLIC_FIREBASE_EMULATOR_HOST;
-  const port = process.env.NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_PORT;
-
-  return ["http://", host, ":", port].join("");
-}
