@@ -19,3 +19,9 @@
 .secondary {
   color: #6c698c;
 }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

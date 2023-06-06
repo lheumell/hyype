@@ -20,7 +20,7 @@ const Home: NextPage = () => {
 
           <div className={styles.grid}>
             <Link href="/events" className={styles.card}>
-              <h2>Events </h2>
+              <h2>Tous les evenements</h2>
               <p>Jette un oeil aux nouveaux evenements</p>
             </Link>
 
@@ -30,7 +30,7 @@ const Home: NextPage = () => {
             </Link>
 
             <Link href="/create-events" className={styles.card}>
-              <h2>Créer un evenements</h2>
+              <h2>Créer un evenement</h2>
               <p>Le plus simple c'est de commencer par la pratique</p>
             </Link>
 

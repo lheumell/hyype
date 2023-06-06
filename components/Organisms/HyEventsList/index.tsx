@@ -18,6 +18,7 @@ type Tevent = {
   price: number;
   guest: string[];
   location: string;
+  city: string;
   organizer: string;
   capacity: number;
   bgColor: string;
@@ -57,6 +58,7 @@ export const HyEventsList = (props: IHyEventsList) => {
           guest={event.guest}
           capacity={event.capacity}
           location={event.location}
+          city={event.city}
           organizer={event.organizer}
           handleClick={handleClick}
           isAdminCard={isAdminCard}

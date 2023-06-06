@@ -4,5 +4,39 @@
   border: 3px solid;
   box-shadow: 3px 2px 0px 0px #000000;
   padding: 12px;
-  margin: 16px 8px;
+  margin: 8px 0;
+}
+
+.dropdownContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+}
+
+.list {
+  border: 3px solid;
+  box-shadow: 3px 2px 0px 0px #000000;
+  padding: 12px;
+  position: fixed;
+  top: 25%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.item {
+  padding: 12px;
+  font-weight: 700;
+  border-radius: 12px;
+  width: 100%;
+  text-align: center;
+}
+
+.item:hover {
+  background-color: crimson;
+  color: white;
 }

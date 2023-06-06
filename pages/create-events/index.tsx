@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/router";
 import Layout from "../../Layout";
 import {
   HyText,
@@ -13,6 +12,8 @@ import { createDocByCollection, getDocByCollection } from "../../lib/endpoints";
 import { HyToggle } from "../../components/Molecules/HyToggle";
 import { AuthContext } from "../_app";
 
+import { AddressAutofill } from "@mapbox/search-js-react";
+
 const CreateEvents = () => {
   const [hasLimitParticipant, setHasLimitParticipant] = useState(false);
   const [isPaying, setIsPaying] = useState(false);
@@ -24,6 +25,7 @@ const CreateEvents = () => {
   const [title, setTitle] = useState("");
   const [decscription, setDecscription] = useState("");
   const [location, setLocation] = useState("");
+  const [city, setCity] = useState("");
   const [date, setDate] = useState("");
   const [capacity, setCapacity] = useState(0);
   const [price, setPrice] = useState(0);
@@ -69,8 +71,9 @@ const CreateEvents = () => {
       title: title,
       decscription: decscription,
       location: location,
+      city: city,
       date: date,
-      price: price ? price : 0,
+      price: price && isPaying ? price : 0,
       capacity: capacity ? capacity : 0,
       organizer: currentUser.id,
       category: selectedCategory,
@@ -87,10 +90,11 @@ const CreateEvents = () => {
             id={"0"}
             title={title}
             date={date}
-            price={price}
+            price={price && isPaying ? price : 0}
             guest={[]}
-            capacity={capacity}
+            capacity={capacity && hasLimitParticipant ? capacity : 0}
             location={location}
+            city={city}
             organizer={""}
             handleClick={undefined}
             isAdminCard={false}
@@ -113,48 +117,51 @@ const CreateEvents = () => {
               label="decscription"
               type="text"
             />
+            <AddressAutofill accessToken="pk.eyJ1IjoibGhldW1lbGwiLCJhIjoiY2xpa2R5dzZkMDB6aTNzbXA5b2FoNGFqdSJ9.-iWQMwxxd0WH4gTATYgIpA">
+              <HyLabelInput
+                label="Addresse"
+                type="text"
+                value={location}
+                setValue={setLocation}
+                autoComplete="address-line1"
+              />
+            </AddressAutofill>
             <HyLabelInput
-              value={location}
-              setValue={setLocation}
-              label="Lieux"
+              label="Ville"
               type="text"
+              value={city}
+              setValue={setCity}
+              autoComplete="address-level2"
             />
+            <div>
+              <HyToggle
+                value={hasLimitParticipant}
+                setValue={setHasLimitParticipant}
+              />
+              <HyLabelInput
+                isDisabled={!hasLimitParticipant}
+                value={capacity}
+                setValue={setCapacity}
+                label="Nombre max. de participants"
+                type="number"
+              />
+            </div>
+            <div>
+              <HyToggle value={isPaying} setValue={setIsPaying} />
+              <HyLabelInput
+                isDisabled={!isPaying}
+                value={price}
+                setValue={setPrice}
+                label="Prix"
+                type="number"
+              />
+            </div>
             <HyLabelInput
               value={date}
               setValue={setDate}
               label="Date"
               type="date"
             />
-            <div>
-              <HyToggle
-                label="Limitation de participant ?"
-                value={hasLimitParticipant}
-                setValue={setHasLimitParticipant}
-              />
-              {hasLimitParticipant && (
-                <HyLabelInput
-                  value={capacity}
-                  setValue={setCapacity}
-                  label="Nombre max. de participants"
-                  type="number"
-                />
-              )}
-            </div>
-            <div>
-              <HyToggle
-                label="Payant ?"
-                value={isPaying}
-                setValue={setIsPaying}
-              />
-              {isPaying && (
-                <HyLabelInput
-                  value={price}
-                  setValue={setPrice}
-                  label="Prix"
-                  type="number"
-                />
-              )}
-            </div>
             <HySelectDropdown
               items={categories}
               selectedItem={selectedCategory}

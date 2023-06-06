@@ -12,3 +12,7 @@
   flex-direction: column;
   margin: 8px;
 }
+
+.disabled {
+  opacity: 0.3;
+}

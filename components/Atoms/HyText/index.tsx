@@ -6,16 +6,17 @@ type THyText = {
   variant?: "title" | "subtitle" | "heading" | "subheading";
   color?: "secondary";
   weight?: "bold";
+  addStyle?: "truncate";
   classes?: string;
 };
 
 export const HyText = (props: THyText) => {
-  const { children, variant, weight, color, classes } = props;
+  const { children, variant, weight, color, classes, addStyle } = props;
   return (
     <p
       className={`${variant && styles[variant]} ${weight && styles[weight]} ${
-        color && styles[color]
-      } ${classes} ${styles.default}`}
+        addStyle && styles[addStyle]
+      }  ${color && styles[color]} ${classes} ${styles.default}`}
     >
       {children}
     </p>

@@ -15,6 +15,7 @@ type THyCardEvent = {
   guest: string[];
   capacity: number;
   location: string;
+  city: string;
   organizer: string;
   handleClick: any;
   isAdminCard?: boolean;
@@ -31,6 +32,7 @@ export const HyCardEvent = (props: THyCardEvent) => {
     capacity,
     guest,
     location,
+    city,
     handleClick,
     organizer,
     isAdminCard,
@@ -162,9 +164,11 @@ export const HyCardEvent = (props: THyCardEvent) => {
         </div>
       </div>
       <div className={styles.title}>
-        <HyText weight="bold">{title}</HyText>
-        <HyText variant="subheading" color="secondary">
-          {location}
+        <HyText weight="bold" addStyle="truncate">
+          {title}
+        </HyText>
+        <HyText variant="subheading" color="secondary" addStyle="truncate">
+          {city}
         </HyText>
       </div>
       <div className={styles.price}>
