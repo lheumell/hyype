@@ -12,6 +12,7 @@ import { createDocByCollection, getDocByCollection } from "../../lib/endpoints";
 import { HyToggle } from "../../components/Molecules/HyToggle";
 import { AuthContext } from "../_app";
 import dynamic from "next/dynamic";
+import router from "next/router";
 
 const HyAutoLocation = dynamic(
   () => import("../../components/Atoms/HyAutoLocation"),
@@ -75,17 +76,18 @@ const CreateEvents = () => {
     // }
     createDocByCollection("events", {
       title: title,
-      decscription: decscription,
+      description: decscription,
       location: location,
       city: city,
       date: date,
       price: price && isPaying ? price : 0,
       capacity: capacity ? capacity : 0,
       organizer: currentUser.id,
-      category: selectedCategory,
+      category: selectedCategory && selectedCategory.name,
       guest: [],
       bgColor: randomColor,
     });
+    router.push("/events");
   };
 
   return (

@@ -15,7 +15,7 @@
 }
 
 .rightcontent {
-  width: 50vw;
+  width: 60vw;
 }
 
 .form {
@@ -30,4 +30,25 @@
 .button {
   margin: 8px;
   grid-area: 5 / 1 / 5 / 3;
+}
+
+@media (max-width: 600px) {
+  .leftcontent {
+    display: none;
+  }
+  .rightcontent {
+    width: 100vw;
+  }
+  .form {
+    display: block;
+  }
+}
+
+@media (max-width: 1200px) {
+  .pagecreate {
+    flex-direction: column;
+  }
+  .leftcontent {
+    width: 95%;
+  }
 }
