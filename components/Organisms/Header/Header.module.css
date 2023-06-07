@@ -54,3 +54,16 @@
   display: flex;
   align-items: center;
 }
+
+.burgerMenu {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .burgerMenu {
+    display: block;
+  }
+  .fullScreen {
+    display: none;
+  }
+}

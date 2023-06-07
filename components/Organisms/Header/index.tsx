@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { HyIcon } from "../../../index";
+import { HyIcon, HyBurgerMenu } from "../../../index";
 
 import logo from "../../../assets/logo.svg";
 import avatar from "../../../assets/avatar.png";
@@ -34,7 +34,11 @@ const Header = () => {
       <div className={styles.logocontainer}>
         <HyIcon icon={logo} size="80" />
       </div>
-      <div className={styles.navcontainer}>
+      <div className={styles.burgerMenu}>
+        <HyBurgerMenu links={links} />
+      </div>
+
+      <div className={`${styles.navcontainer} ${styles.fullScreen}`}>
         <ul>
           {links.map((link) => (
             <li key={link.name} className={styles.itemNavigation}>
@@ -45,23 +49,25 @@ const Header = () => {
           ))}
         </ul>
       </div>
-      {currentUser.name && <p>Hi, {currentUser.name}</p>}
-      {currentUser.name ? (
-        <div className={styles.account}>
-          <Link className={styles.itemHref} href="/verify">
-            Verifie ton identité !
+
+      <div className={styles.fullScreen}>
+        {currentUser.name ? (
+          <div className={styles.account}>
+            <Link className={styles.itemHref} href="/verify">
+              Verifie ton identité !
+            </Link>
+            <Link className={styles.itemHref} href="/profil">
+              <div className={styles.icon}>
+                <HyIcon icon={avatar} size={"20"} />
+              </div>
+            </Link>
+          </div>
+        ) : (
+          <Link className={styles.itemHref} href="/auth/sign-in">
+            Connexion
           </Link>
-          <Link className={styles.itemHref} href="/profil">
-            <div className={styles.icon}>
-              <HyIcon icon={avatar} size={"20"} />
-            </div>
-          </Link>
-        </div>
-      ) : (
-        <Link className={styles.itemHref} href="/auth/sign-in">
-          Connexion
-        </Link>
-      )}
+        )}
+      </div>
     </div>
   );
 };
