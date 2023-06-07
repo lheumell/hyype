@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import React, { useContext } from "react";
 
 import { HyIcon } from "../../../index";
 
@@ -46,8 +45,8 @@ const Header = () => {
           ))}
         </ul>
       </div>
-
-      {currentUser ? (
+      {currentUser.name && <p>Hi, {currentUser.name}</p>}
+      {currentUser.name ? (
         <div className={styles.account}>
           <Link className={styles.itemHref} href="/verify">
             Verifie ton identité !

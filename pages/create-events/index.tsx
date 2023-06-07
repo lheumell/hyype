@@ -89,7 +89,7 @@ const CreateEvents = () => {
   };
 
   return (
-    <Layout title="crée ton evenement">
+    <Layout title="crée ton evenement" isGuarded>
       <div className={styles.pagecreate}>
         <div className={styles.leftcontent}>
           <HyCardEvent

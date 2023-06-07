@@ -2,9 +2,10 @@ import Head from "next/head";
 
 import Footer from "../components/Organisms/Footer";
 import Header from "../components/Organisms/Header";
+import GuardedPage from "../components/GuardedPage";
 
 const Layout = (props: any) => {
-  const { children, title } = props;
+  const { children, title, isGuarded } = props;
   return (
     <>
       <Head>
@@ -12,7 +13,13 @@ const Layout = (props: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="content">{children}</div>
+      {isGuarded ? (
+        <GuardedPage whenSignedOut="/auth/sign-up">
+          <div className="content">{children}</div>
+        </GuardedPage>
+      ) : (
+        <div className="content">{children}</div>
+      )}
 
       {/* <Footer /> */}
       <style jsx global>{`

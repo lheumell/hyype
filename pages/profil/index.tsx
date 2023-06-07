@@ -55,7 +55,7 @@ const Profil = () => {
   }
 
   return (
-    <Layout title="profil">
+    <Layout title="profil" isGuared>
       <GuardedPage whenSignedOut="/auth/sign-in">
         <HyText variant="title" weight="bold">
           Mes informations :
