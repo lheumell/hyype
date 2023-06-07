@@ -11,8 +11,14 @@ import styles from "./createevent.module.css";
 import { createDocByCollection, getDocByCollection } from "../../lib/endpoints";
 import { HyToggle } from "../../components/Molecules/HyToggle";
 import { AuthContext } from "../_app";
+import dynamic from "next/dynamic";
 
-import { AddressAutofill } from "@mapbox/search-js-react";
+const HyAutoLocation = dynamic(
+  () => import("../../components/Atoms/HyAutoLocation"),
+  {
+    ssr: false,
+  }
+);
 
 const CreateEvents = () => {
   const [hasLimitParticipant, setHasLimitParticipant] = useState(false);
@@ -117,15 +123,18 @@ const CreateEvents = () => {
               label="decscription"
               type="text"
             />
-            <AddressAutofill accessToken="pk.eyJ1IjoibGhldW1lbGwiLCJhIjoiY2xpa2R5dzZkMDB6aTNzbXA5b2FoNGFqdSJ9.-iWQMwxxd0WH4gTATYgIpA">
-              <HyLabelInput
-                label="Addresse"
-                type="text"
-                value={location}
-                setValue={setLocation}
-                autoComplete="address-line1"
-              />
-            </AddressAutofill>
+            {/* {typeof document !== "undefined" && (
+              <AddressAutofill accessToken="pk.eyJ1IjoibGhldW1lbGwiLCJhIjoiY2xpa2R5dzZkMDB6aTNzbXA5b2FoNGFqdSJ9.-iWQMwxxd0WH4gTATYgIpA">
+                <HyLabelInput
+                  label="Addresse"
+                  type="text"
+                  value={location}
+                  setValue={setLocation}
+                  autoComplete="address-line1"
+                />
+              </AddressAutofill>
+            )} */}
+            <HyAutoLocation value={location} setValue={setLocation} />
             <HyLabelInput
               label="Ville"
               type="text"
