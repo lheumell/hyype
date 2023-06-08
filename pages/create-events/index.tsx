@@ -30,10 +30,10 @@ const CreateEvents = () => {
   const [hasLimitParticipant, setHasLimitParticipant] = useState(false);
   const [isPaying, setIsPaying] = useState(false);
 
-  const [selectedCategory, setSelectedCategory] = useState<TCategory>();
-
+  
   const [categories, setCategories] = useState<any>();
-
+  
+  const [selectedCategory, setSelectedCategory] = useState<TCategory>();
   const [title, setTitle] = useState("");
   const [decscription, setDecscription] = useState("");
   const [location, setLocation] = useState("");
@@ -91,6 +91,7 @@ const CreateEvents = () => {
       category: selectedCategory && selectedCategory.name,
       guest: [],
       bgColor: randomColor,
+      isCanceled: false,
     });
     router.push("/events");
   };
@@ -110,7 +111,6 @@ const CreateEvents = () => {
             city={city}
             organizer={""}
             handleClick={undefined}
-            isAdminCard={false}
             bgColor={colorPickerBg[0]}
             isDisabled={true}
           />

@@ -8,6 +8,20 @@ import { findDocById, getDocByCollectionWhere } from "../../lib/endpoints";
 import style from "./profil.module.css";
 import { useAuth } from "reactfire";
 
+type TEvent = {
+  id: string;
+  title?: string;
+  date?: string;
+  description?: string;
+  price?: number;
+  guest?: string[];
+  location?: string;
+  city?: string;
+  organizer?: string;
+  capacity?: number;
+  bgColor?: string;
+};
+
 const Profil = () => {
   const [myEvents, setMyEvents] = useState<any[]>();
   const [eventsBooked, setEventsBooked] = useState<any>();
@@ -36,8 +50,11 @@ const Profil = () => {
             const event = await findDocById("events", eventId);
             return event;
           });
-        const events = await Promise.all(eventsPromises);
-        setEventsBooked(events);
+        const events: TEvent[] = await Promise.all(eventsPromises);
+        const activeEvents = events.filter((event) => {
+          event.title;
+        });
+        setEventsBooked(activeEvents);
         setIsLoading(false);
       }
     }

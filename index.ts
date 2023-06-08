@@ -1,4 +1,5 @@
 export * from "./components/Commons/Loader";
+export * from "./components/Commons/NoResult";
 
 export * from "./components/Atoms/HyButton";
 export * from "./components/Atoms/HyIcon";

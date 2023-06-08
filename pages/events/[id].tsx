@@ -1,17 +1,37 @@
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { findDocById } from "../../lib/endpoints";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { HyText } from "../../components/Atoms/HyText";
 import Layout from "../../Layout";
-import { HyIcon, Loader } from "../..";
+import { HyIcon, HyLabelInput, Loader } from "../..";
 import arrowLeft from "../../assets/arrow-left.png";
 import styles from "./events.module.css";
+import { AuthContext } from "../_app";
 
 const Event = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [event, setEvent] = useState<any>();
+
+  const [category, setCategory] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDecscription] = useState("");
+  const [location, setLocation] = useState("");
+  const [city, setCity] = useState("");
+  const [date, setDate] = useState("");
+  const [capacity, setCapacity] = useState(0);
+  const [price, setPrice] = useState(0);
+
   const router = useRouter();
   const { id } = router.query;
+
+  const useAuthContext = useContext(AuthContext);
+
+  const { currentUser } = useAuthContext;
+
+  const isEventOfCurrentUser = useMemo(() => {
+    return event && event.organizer === currentUser.id;
+  }, [currentUser, event]);
+
   useEffect(() => {
     async function fetchData() {
       id && setEvent(await findDocById("events", id));
@@ -20,12 +40,19 @@ const Event = () => {
     setIsLoading(false);
   }, [id]);
 
+  useEffect(() => {
+    if (!event) return;
+    setTitle(event.title);
+    setDecscription(event.description);
+    setPrice(event.price);
+    setCapacity(event.capacity);
+  }, [event]);
   const remainingSpaces = useMemo(() => {
     return event && event.capacity - event.guest.length;
   }, [event]);
 
   const goBack = () => {
-    router.push("/events");
+    Router.back();
   };
 
   const style: React.CSSProperties = {
@@ -44,16 +71,46 @@ const Event = () => {
             <div onClick={goBack}>
               <HyIcon icon={arrowLeft} size="20" />
             </div>
-            <HyText variant="title">{event.title}</HyText>
-            <HyText weight="bold" color="secondary">
-              Description : {event.description}
-            </HyText>
-            <HyText>Prix : {event.price} €</HyText>
-            <HyText>{event.category}</HyText>
-            <HyText>Organisateur : {event.organizer}</HyText>
-            <HyText>{event.bgColor}</HyText>
-            <HyText>Date : {event.date}</HyText>
-            <HyText>Il reste {remainingSpaces} place(s)</HyText>
+            {isEventOfCurrentUser ? (
+              <>
+                <HyLabelInput
+                  label={"title"}
+                  value={title}
+                  setValue={setTitle}
+                  type={"text"}
+                />
+                <HyLabelInput
+                  label={"description"}
+                  value={description}
+                  setValue={setDecscription}
+                  type={"text"}
+                />
+                <HyLabelInput
+                  label={"prix"}
+                  value={price}
+                  setValue={setPrice}
+                  type={"number"}
+                />
+
+                <HyText>{event.category}</HyText>
+                <HyText>Organisateur : {event.organizer}</HyText>
+                <HyText>Date : {event.date}</HyText>
+                <HyText>Il reste {remainingSpaces} place(s)</HyText>
+              </>
+            ) : (
+              <>
+                <HyText variant="title">{event.title}</HyText>
+                <HyText weight="bold" color="secondary">
+                  Description : {event.description}
+                </HyText>
+                <HyText>Prix : {event.price} €</HyText>
+                <HyText>{category}</HyText>
+                <HyText>Organisateur : {event.organizer}</HyText>
+                <HyText>{event.bgColor}</HyText>
+                <HyText>Date : {event.date}</HyText>
+                <HyText>Il reste {remainingSpaces} place(s)</HyText>
+              </>
+            )}
           </div>
         </Layout>
       )}

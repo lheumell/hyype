@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -82,4 +83,10 @@ export const findDocById = async (collectionReference: string, id: any) => {
   const docRef = doc(docReference, id);
   const docSnap = await getDoc(docRef);
   return { ...docSnap.data(), id: docSnap.id };
+};
+
+export const deleteDocById = async (collectionReference: string, id: any) => {
+  const docReference = collection(database, collectionReference);
+  const docRef = doc(docReference, id);
+  await deleteDoc(docRef);
 };
