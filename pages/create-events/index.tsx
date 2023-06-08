@@ -14,6 +14,11 @@ import { AuthContext } from "../_app";
 import dynamic from "next/dynamic";
 import router from "next/router";
 
+type TCategory = {
+  id: number;
+  name: string;
+};
+
 const HyAutoLocation = dynamic(
   () => import("../../components/Atoms/HyAutoLocation"),
   {
@@ -25,7 +30,7 @@ const CreateEvents = () => {
   const [hasLimitParticipant, setHasLimitParticipant] = useState(false);
   const [isPaying, setIsPaying] = useState(false);
 
-  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedCategory, setSelectedCategory] = useState<TCategory>();
 
   const [categories, setCategories] = useState<any>();
 
