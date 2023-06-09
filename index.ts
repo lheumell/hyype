@@ -11,6 +11,7 @@ export * from "./components/Molecules/HySelectDropdown";
 export * from "./components/Molecules/HyModal";
 export * from "./components/Molecules/HyCardEvent";
 export * from "./components/Molecules/HyTabs";
+export * from "./components/Molecules/HyToggle";
 
 export * from "./components/Organisms/HyCategoriesList";
 export * from "./components/Organisms/HyEventsList";

@@ -2,6 +2,7 @@ import "../styles/globals.css";
 
 import { AppProps } from "next/app";
 import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
 
 import {
   initializeAuth,
@@ -20,6 +21,7 @@ import { getOneDocByCollectionWhere } from "../lib/endpoints";
 const app = initializeApp(configuration.firebase);
 
 export const database = getFirestore(app);
+export const storage = getStorage(app);
 
 type TUser = {
   name: string;
