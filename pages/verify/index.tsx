@@ -15,8 +15,10 @@ function Verify() {
 
   const [selectedPassport, setSelectedPassport] = useState<string | null>();
   const [selectedPhoto, setSelectedPhoto] = useState("");
-  const [passportFormatUpload, setPassportFormatUpload] = useState("");
-  const [photoFormatUpload, setPhotoFormatUpload] = useState("");
+  const [passportFormatUpload, setPassportFormatUpload] = useState<File>();
+  const [photoFormatUpload, setPhotoFormatUpload] = useState<
+    Blob | ArrayBuffer | Uint8Array
+  >();
   const [url1, setUrl1] = useState(null);
   const [step, setStep] = useState(1);
   const [isCameraOpen, setCameraOpen] = useState(false);
@@ -49,11 +51,8 @@ function Verify() {
     else handleStartCamera();
   };
 
-  const formatReaderImage = () => {};
-
   const handleImageChange = (event: any) => {
     const file = event.target.files[0];
-    setPassportFormatUpload(file);
     const reader = new FileReader();
 
     reader.onload = () => {
@@ -78,7 +77,7 @@ function Verify() {
     context &&
       context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 
-    canvas.toBlob((blob) => {
+    canvas.toBlob((blob: any) => {
       // Crée un objet File à partir du blob
       const file = new File([blob], "capturedImage.png", { type: "image/png" });
 
@@ -95,6 +94,7 @@ function Verify() {
   };
 
   const handleFileUpload = () => {
+    if (!passportFormatUpload || !photoFormatUpload) return;
     if (!selectedPassport && !selectedPhoto) {
       alert("Please choose a file first!");
     }
@@ -102,6 +102,7 @@ function Verify() {
       storage,
       `/files/${currentUser.id}_passport`
     );
+
     const uploadTaskPassport = uploadBytesResumable(
       storageRefPassport,
       passportFormatUpload
@@ -157,7 +158,7 @@ function Verify() {
               <input type="file" accept=".png" onChange={handleImageChange} />
               {selectedPassport && (
                 <>
-                  <HyIcon icon={selectedPassport} size="650" />
+                  <HyIcon icon={selectedPassport} size="350" />
                 </>
               )}
             </div>
@@ -187,7 +188,7 @@ function Verify() {
               <video ref={videoRef} autoPlay muted />
             </div>
             <div className={styles.identity}>
-              {selectedPhoto && <HyIcon icon={selectedPhoto} size="560" />}
+              {selectedPhoto && <HyIcon icon={selectedPhoto} size="350" />}
               <HyButton onClick={handleFileUpload}>Envoyer</HyButton>
               <HyText classes={styles.step}>{step}/2</HyText>
             </div>
