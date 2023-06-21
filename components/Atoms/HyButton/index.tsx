@@ -10,7 +10,8 @@ export const HyButton = (props: THyButton) => {
       onClick={onClick}
       className={`${styles.button} ${variant && styles[variant]} ${
         !withIcon && styles.minwidth
-      }`}
+      }
+      ${!isDisabled && styles.is_active}`}
     >
       {children}
     </button>

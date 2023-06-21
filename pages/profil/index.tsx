@@ -1,4 +1,4 @@
-import { HyButton, HyEventsList, HyText, Loader } from "../..";
+import { HyButton, HyEventsList, HyText, Loader, NoResult } from "../..";
 import { signOut } from "firebase/auth";
 import Layout from "../../Layout";
 import GuardedPage from "../../components/GuardedPage";
@@ -34,6 +34,7 @@ const Profil = () => {
   useEffect(() => {
     async function fetchData() {
       currentUser &&
+        currentUser.id &&
         setMyEvents(
           await getDocByCollectionWhere(
             "events",
@@ -42,7 +43,11 @@ const Profil = () => {
             currentUser.id
           )
         );
-      if (currentUser && Array.isArray(currentUser.eventsBook)) {
+      if (
+        currentUser &&
+        Array.isArray(currentUser.eventsBook) &&
+        currentUser.eventsBook.length > 0
+      ) {
         const eventsPromises =
           currentUser &&
           currentUser.eventsBook &&
@@ -55,6 +60,8 @@ const Profil = () => {
           event.title;
         });
         setEventsBooked(activeEvents);
+        setIsLoading(false);
+      } else {
         setIsLoading(false);
       }
     }
@@ -82,11 +89,31 @@ const Profil = () => {
         <HyText variant="title" weight="bold">
           A venir :
         </HyText>
-        {eventsBooked && <HyEventsList events={eventsBooked} />}
+        {eventsBooked && eventsBooked.length > 0 ? (
+          <HyEventsList events={eventsBooked} />
+        ) : (
+          <NoResult />
+        )}
         <HyText variant="title" weight="bold">
           Mes evenements :
         </HyText>
-        {myEvents && <HyEventsList events={myEvents} isAdminCard />}
+        {myEvents && myEvents?.length > 0 ? (
+          <HyEventsList events={myEvents} isAdminCard filter="activeEvents" />
+        ) : (
+          <NoResult />
+        )}
+        <HyText variant="title" weight="bold">
+          Historique :
+        </HyText>
+        {myEvents && myEvents.length > 0 ? (
+          <HyEventsList
+            events={myEvents}
+            disabledList
+            filter="canceledEvents"
+          />
+        ) : (
+          <NoResult />
+        )}
         <div className={style.signout}>
           <HyButton onClick={onSignOutRequested}>Deconnexion</HyButton>
         </div>

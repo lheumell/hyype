@@ -30,17 +30,20 @@ const CreateEvents = () => {
   const [hasLimitParticipant, setHasLimitParticipant] = useState(false);
   const [isPaying, setIsPaying] = useState(false);
 
-  
   const [categories, setCategories] = useState<any>();
-  
-  const [selectedCategory, setSelectedCategory] = useState<TCategory>();
+
+  const [selectedCategory, setSelectedCategory] = useState<TCategory>({
+    id: 1,
+    name: "benevole",
+  });
   const [title, setTitle] = useState("");
-  const [decscription, setDecscription] = useState("");
+  const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [city, setCity] = useState("");
   const [date, setDate] = useState("");
   const [capacity, setCapacity] = useState(0);
   const [price, setPrice] = useState(0);
+  const [onlyVerifiedAccount, setOnlyVerifiedAccount] = useState(false);
 
   const colorPickerBg = ["FFA9DC", "FFE993", "9DD9F4", "E8CABB", "FCAA51"];
 
@@ -49,14 +52,23 @@ const CreateEvents = () => {
 
   const useAuthContext = useContext(AuthContext);
 
-  const { currentUser } = useAuthContext;
+  const { currentUser, handleNotification } = useAuthContext;
 
   useEffect(() => {
     async function fetchData() {
-      setCategories(await getDocByCollection("categories"));
+      const categories = await getDocByCollection("categories");
+      const filtredCategories = categories.filter((category) => {
+        return category.name !== "all";
+      });
+
+      setCategories(filtredCategories);
     }
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (!onlyVerifiedAccount) return;
+  }, [onlyVerifiedAccount, handleNotification]);
 
   useMemo(() => {
     categories && setSelectedCategory(categories[0]);
@@ -64,7 +76,7 @@ const CreateEvents = () => {
 
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
-    const formData = { title, decscription };
+    const formData = { title, description };
     // const [formData, setFormData] = useState({
     //   name: "",
     //   email: "",
@@ -81,7 +93,7 @@ const CreateEvents = () => {
     // }
     createDocByCollection("events", {
       title: title,
-      description: decscription,
+      description: description,
       location: location,
       city: city,
       date: date,
@@ -91,8 +103,13 @@ const CreateEvents = () => {
       category: selectedCategory && selectedCategory.name,
       guest: [],
       bgColor: randomColor,
+      image: `${selectedCategory && selectedCategory.name}_${
+        Math.floor(Math.random() * 2) + 1
+      }`,
       isCanceled: false,
+      onlyVerifiedAccount: onlyVerifiedAccount,
     });
+    handleNotification("Evenement crée avec succès !");
     router.push("/events");
   };
 
@@ -113,6 +130,8 @@ const CreateEvents = () => {
             handleClick={undefined}
             bgColor={colorPickerBg[0]}
             isDisabled={true}
+            image={`${selectedCategory && selectedCategory.name}_2`}
+            onlyVerifiedAccount={false}
           />
         </div>
         <div className={styles.rightcontent}>
@@ -125,10 +144,10 @@ const CreateEvents = () => {
               type="text"
             />
             <HyLabelInput
-              value={decscription}
-              setValue={setDecscription}
-              label="decscription"
-              type="text"
+              value={description}
+              setValue={setDescription}
+              label="description"
+              type="textArea"
             />
             {/* {typeof document !== "undefined" && (
               <AddressAutofill accessToken="pk.eyJ1IjoibGhldW1lbGwiLCJhIjoiY2xpa2R5dzZkMDB6aTNzbXA5b2FoNGFqdSJ9.-iWQMwxxd0WH4gTATYgIpA">
@@ -178,10 +197,18 @@ const CreateEvents = () => {
               label="Date"
               type="date"
             />
-            <HySelectDropdown
-              items={categories}
-              selectedItem={selectedCategory}
-              setSelectedItem={setSelectedCategory}
+            {categories && (
+              <HySelectDropdown
+                items={categories}
+                selectedItem={selectedCategory}
+                setSelectedItem={setSelectedCategory}
+              />
+            )}
+
+            <HyToggle
+              label="Seulement les compte certifiés"
+              value={onlyVerifiedAccount}
+              setValue={setOnlyVerifiedAccount}
             />
             {/* <HyLabelInput //Faire un multi select
               value={category}

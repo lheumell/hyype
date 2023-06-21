@@ -17,6 +17,7 @@ import { isBrowser } from "../lib/generic/isBrowser";
 import { SetStateAction, createContext, useEffect, useState } from "react";
 import { getFirestore } from "firebase/firestore";
 import { getOneDocByCollectionWhere } from "../lib/endpoints";
+import styles from "../styles/Home.module.css";
 
 const app = initializeApp(configuration.firebase);
 
@@ -45,6 +46,9 @@ const defaultAuthContext = {
   setCurrentUser: (value: SetStateAction<TUser>) => {
     value;
   },
+  handleNotification: (message: string) => {
+    message;
+  },
 };
 
 export const AuthContext = createContext(defaultAuthContext);
@@ -53,6 +57,8 @@ function App(props: AppProps) {
   const { Component, pageProps } = props;
 
   const [currentUser, setCurrentUser] = useState<TUser>(defaultUser);
+  const [isNotificationPush, setNotificationPush] = useState<boolean>(false);
+  const [messageNotification, setMessageNotification] = useState<string>("");
   const persistence = isBrowser()
     ? indexedDBLocalPersistence
     : inMemoryPersistence;
@@ -72,6 +78,22 @@ function App(props: AppProps) {
     return () => listener();
   }, [auth]);
 
+  const handleNotification = (message: string) => {
+    setNotificationPush(true);
+    setMessageNotification(message);
+  };
+
+  useEffect(() => {
+    if (!isNotificationPush) return;
+    const timer = setTimeout(() => {
+      setNotificationPush(false);
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isNotificationPush]);
+
   const saveSettings = (values: any) => {
     setCurrentUser(values);
   };
@@ -80,8 +102,16 @@ function App(props: AppProps) {
     <FirebaseAppProvider firebaseApp={app}>
       <AuthProvider sdk={auth}>
         <AuthContext.Provider
-          value={{ currentUser, saveSettings, setCurrentUser }}
+          value={{
+            currentUser,
+            saveSettings,
+            setCurrentUser,
+            handleNotification,
+          }}
         >
+          {isNotificationPush && (
+            <p className={styles.global_notification}>{messageNotification}</p>
+          )}
           <Component {...pageProps} />
         </AuthContext.Provider>
       </AuthProvider>

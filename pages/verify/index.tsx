@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext } from "react";
 import { HyButton, HyIcon, HyText, HyToggle } from "../..";
 import styles from "./verify.module.css";
 import { AuthContext } from "../../pages/_app";
+import Layout from "../../Layout";
 
 import { updateDocByCollection } from "../../lib/endpoints";
 
@@ -149,7 +150,7 @@ function Verify() {
   };
 
   return (
-    <>
+    <Layout>
       <div className={styles.verifypage}>
         {step === 1 && (
           <div className={styles.identity}>
@@ -195,7 +196,7 @@ function Verify() {
           </>
         )}
       </div>
-    </>
+    </Layout>
   );
 }
 

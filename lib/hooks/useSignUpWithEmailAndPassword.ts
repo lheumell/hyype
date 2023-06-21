@@ -19,6 +19,7 @@ export function useSignUpWithEmailAndPassword() {
       id: user.uid,
       eventsBook: [],
       name: "random",
+      isVerified: false,
     };
     createDocByCollectionWithUID("users", dataUser, user.uid);
   };

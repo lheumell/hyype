@@ -79,6 +79,7 @@ export const createDocByCollectionWithUID = async (
 };
 
 export const findDocById = async (collectionReference: string, id: any) => {
+  console.log(collectionReference, id);
   const docReference = collection(database, collectionReference);
   const docRef = doc(docReference, id);
   const docSnap = await getDoc(docRef);

@@ -1,7 +1,9 @@
 import { HyButton, HyIcon, HyText, HyModal } from "../../..";
 
+import Image from "next/image";
+
 import styles from "./HyCardEvent.module.css";
-import bg from "../../../assets/bg-first.png";
+import bg from "../../../assets/bg/benevole_2.png";
 import deleteIcon from "../../../assets/delete.png";
 import { useCallback, useContext, useState } from "react";
 import { AuthContext } from "../../../pages/_app";
@@ -21,7 +23,9 @@ type THyCardEvent = {
   handleClick: any;
   isAdminCard?: boolean;
   bgColor: string;
+  image: string;
   isDisabled?: boolean;
+  onlyVerifiedAccount?: boolean;
 };
 
 export const HyCardEvent = (props: THyCardEvent) => {
@@ -38,8 +42,12 @@ export const HyCardEvent = (props: THyCardEvent) => {
     organizer,
     isAdminCard,
     bgColor,
+    image,
     isDisabled,
+    onlyVerifiedAccount,
   } = props;
+
+  const src = require(`assets/bg/${image}.png`);
 
   let [isOpen, setIsOpen] = useState(false);
 
@@ -54,7 +62,7 @@ export const HyCardEvent = (props: THyCardEvent) => {
 
   const useAuthContext = useContext(AuthContext);
 
-  const { currentUser } = useAuthContext;
+  const { currentUser, handleNotification } = useAuthContext;
 
   const isEventInEventsBook = useCallback(() => {
     return (
@@ -67,8 +75,9 @@ export const HyCardEvent = (props: THyCardEvent) => {
   }, [currentUser, organizer]);
 
   const isEventFull = useCallback(() => {
+    console.log(guest.length, capacity);
     if (capacity === 0) return;
-    return guest && guest.length === capacity;
+    return guest && guest.length >= capacity;
   }, [capacity, guest]);
 
   const EventPrice = () => {
@@ -126,8 +135,9 @@ export const HyCardEvent = (props: THyCardEvent) => {
     const updateData = {
       isCanceled: true,
     };
-    updateDocByCollection("users", updateData, currentUser.id);
+    updateDocByCollection("events", updateData, id);
     setIsOpen(false);
+    handleNotification("Evenement crée avec succès !");
   };
 
   return (
@@ -168,7 +178,14 @@ export const HyCardEvent = (props: THyCardEvent) => {
           {date}
         </HyText>
         <div style={style} className={styles.bgimage}>
-          <HyIcon classes={styles.image} icon={bg} size="350" />
+          <Image
+            src={src}
+            alt="GFG logo imported from public directory"
+            width={350}
+            className={styles.image}
+            height={350}
+          />
+          {/* <HyIcon classes={styles.image} icon={image} size="350" /> */}
         </div>
       </div>
       <div className={styles.title}>

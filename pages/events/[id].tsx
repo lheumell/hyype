@@ -16,6 +16,7 @@ const Event = () => {
   const [title, setTitle] = useState("");
   const [description, setDecscription] = useState("");
   const [location, setLocation] = useState("");
+  const [organizer, setOrganizer] = useState<any>();
   const [city, setCity] = useState("");
   const [date, setDate] = useState("");
   const [capacity, setCapacity] = useState(0);
@@ -35,10 +36,11 @@ const Event = () => {
   useEffect(() => {
     async function fetchData() {
       id && setEvent(await findDocById("events", id));
+      event && setOrganizer(await findDocById("users", event.organizer));
     }
     fetchData();
     setIsLoading(false);
-  }, [id]);
+  }, [event, id]);
 
   useEffect(() => {
     if (!event) return;
@@ -93,7 +95,7 @@ const Event = () => {
                 />
 
                 <HyText>{event.category}</HyText>
-                <HyText>Organisateur : {event.organizer}</HyText>
+                <HyText>Organisateur : {organizer && organizer.name}</HyText>
                 <HyText>Date : {event.date}</HyText>
                 <HyText>Il reste {remainingSpaces} place(s)</HyText>
               </>
@@ -105,7 +107,7 @@ const Event = () => {
                 </HyText>
                 <HyText>Prix : {event.price} €</HyText>
                 <HyText>{category}</HyText>
-                <HyText>Organisateur : {event.organizer}</HyText>
+                <HyText>Organisateur : {organizer && organizer.name}</HyText>
                 <HyText>{event.bgColor}</HyText>
                 <HyText>Date : {event.date}</HyText>
                 <HyText>Il reste {remainingSpaces} place(s)</HyText>

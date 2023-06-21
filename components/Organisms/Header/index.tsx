@@ -23,16 +23,14 @@ const Header = () => {
       name: " Crée ton evenement",
       href: "/create-events",
     },
-    {
-      name: "A propos",
-      href: "/about",
-    },
   ];
 
   return (
     <div className={styles.header}>
       <div className={styles.logocontainer}>
-        <HyIcon icon={logo} size="80" />
+        <Link href="/">
+          <HyIcon icon={logo} size="80" />
+        </Link>
       </div>
       <div className={styles.burgerMenu}>
         <HyBurgerMenu links={links} />

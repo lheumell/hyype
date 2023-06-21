@@ -10,6 +10,10 @@
   background-color: aquamarine;
 }
 
+.is_active:hover {
+  background-color: #4089d0;
+}
+
 .minwidth {
   min-width: 107px;
   padding: 10px;

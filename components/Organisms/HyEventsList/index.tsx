@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { HyCardEvent } from "../../../index";
 
 import styles from "./HyEventsList.module.css";
@@ -8,6 +8,8 @@ import { updateDocByCollection } from "../../../lib/endpoints";
 interface IHyEventsList {
   events: Tevent[];
   isAdminCard?: boolean;
+  filter?: "activeEvents" | "canceledEvents";
+  disabledList?: boolean;
 }
 
 type Tevent = {
@@ -22,10 +24,21 @@ type Tevent = {
   organizer: string;
   capacity: number;
   bgColor: string;
+  image: string;
+  isCanceled: boolean;
+  isDisabled: boolean;
 };
 
 export const HyEventsList = (props: IHyEventsList) => {
-  const { events, isAdminCard } = props;
+  const { events, isAdminCard, filter, disabledList } = props;
+
+  const eventsFiltered = useMemo(() => {
+    if (filter === "activeEvents")
+      return events.filter((event) => !event.isCanceled);
+    if (filter === "canceledEvents")
+      return events.filter((event) => event.isCanceled);
+    return events;
+  }, [events, filter]);
 
   const useAuthContext = useContext(AuthContext);
 
@@ -48,7 +61,7 @@ export const HyEventsList = (props: IHyEventsList) => {
 
   return (
     <ul className={styles.list}>
-      {events.map((event) => (
+      {eventsFiltered.map((event) => (
         <HyCardEvent
           key={event.id}
           id={event.id}
@@ -63,6 +76,8 @@ export const HyEventsList = (props: IHyEventsList) => {
           handleClick={handleClick}
           isAdminCard={isAdminCard}
           bgColor={event.bgColor}
+          image={event.image}
+          isDisabled={disabledList}
         />
       ))}
     </ul>

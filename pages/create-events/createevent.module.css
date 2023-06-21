@@ -21,7 +21,7 @@
 .form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(4, 150px);
+  grid-template-rows: repeat(5, 150px);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   align-items: center;
@@ -29,7 +29,7 @@
 
 .button {
   margin: 8px;
-  grid-area: 5 / 1 / 5 / 3;
+  grid-area: 6 / 1 / 6 / 3;
 }
 
 @media (max-width: 600px) {

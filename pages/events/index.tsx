@@ -45,7 +45,7 @@ const Events = () => {
             selectedCategory={selectedCategory}
             onCategoryChange={handleCategoryChange}
           />
-          <HyEventsList events={filteredEvents} />
+          <HyEventsList events={filteredEvents} filter="activeEvents" />
         </Layout>
       )}
     </>
